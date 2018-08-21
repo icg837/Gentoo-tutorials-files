@@ -11,15 +11,14 @@
 # /dev/sda3 30G (-8G para el /swapfile, más adelante) /
 # /dev/sda4 resto del espacio /home
 
-# mkfs.ext2 /dev/sda1
-# mkfs.vfat -F 32 /dev/sda2
+# mkfs.vfat -F 32 /dev/sda1
+# mkfs.ext4 /dev/sda2
 # mkfs.ext4 /dev/sda3
-# mkfs.ext4 /dev/sda4
 
 ## Montar las particiones
-mount /dev/sda3 /mnt/gentoo
+mount /dev/sda2 /mnt/gentoo
 mkdir /mnt/gentoo/home
-mount /dev/sda4 /mnt/gentoo/home
+mount /dev/sda3 /mnt/gentoo/home
 
 #### Parte 2ª: instalar los paquetes del stage ####
 
@@ -93,9 +92,8 @@ mkswap /swapfile
 swapon /swapfile
 
 ## Crear y montar la partición /boot (BIOS) o /boot/efi (UEFI)
-mount /dev/sda1 /boot
 mkdir /boot/efi
-mount /dev/sda2 /boot/efi
+mount /dev/sda1 /boot/efi
 
 ## Sincronizar espejos y seleccionar perfiles
 time emerge --sync --quiet
