@@ -6,10 +6,9 @@
 # por defecto, así como la creación de los sistemas de archivos.
 
 # En caso de particionar el disco duro, realizar la acción bien con cfdisk o bien con gparted o similar. Debería quedar así:
-# /dev/sda1 200M BIOS
-# /dev/sda2 200M UEFI BOOT
-# /dev/sda3 30G (-8G para el /swapfile, más adelante) /
-# /dev/sda4 resto del espacio /home
+# /dev/sda1 200M UEFI BOOT
+# /dev/sda2 30G (-8G para el /swapfile, más adelante) /
+# /dev/sda3 resto del espacio /home
 
 # mkfs.vfat -F 32 /dev/sda1
 # mkfs.ext4 /dev/sda2
