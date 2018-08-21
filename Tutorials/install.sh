@@ -201,7 +201,7 @@ mount /dev/sda4 /mnt/gentoo/home
 
 ## Desempaquetar stage3
 # tar xvpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
-tar xvjpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner -C /mnt/gentoo
+tar xvpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner -C /mnt/gentoo
 
 ## Montar el sistema de archivos proc
 # mount --types proc /proc /mnt/gentoo/proc
