@@ -6,6 +6,8 @@ eselect kernel list
 # [1] linux-x.x.x1-gentoo *
 # [2] linux-x.x.x2-gentoo
 
+rm linux ## Estando en el directorio /usr/src
+
 ## Paso 1º: de manera automática
 
 eselect kernel set 2
@@ -13,6 +15,10 @@ eselect kernel set 2
 ## Paso 2º: de manera manual
 ln -s linux-x.x.x2-gentoo/ linux
 ls ## Para comprobar que vuelve a haber un enlace simbólico tras borrarlo anteriormente
+
+## En cualquier caso, al ejecutar eselect kernel list, debería aparecer así:
+# [1] linux-x.x.x1-gentoo
+# [2] linux-x.x.x2-gentoo *
 
 ##
 
