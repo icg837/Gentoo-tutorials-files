@@ -76,7 +76,7 @@ source /etc/profile
 export PS1="(chroot) ${PS1}"
 
 ## Si al crear las particiones en la parte 1ª no se creó una partición swap, realizar los siguientes pasos
-fallocate -l 2048M /swapfile ## en mi caso pongo 2048 megas.
+fallocate -l 8192M /swapfile ## en mi caso pongo 2048 megas.
 chmod 600 /swapfile
 mkswap /swapfile
 swapon /swapfile
