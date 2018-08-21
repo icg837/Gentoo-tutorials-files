@@ -203,6 +203,9 @@ mount /dev/sda4 /mnt/gentoo/home
 # tar xvpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 tar xvpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner -C /mnt/gentoo
 
+## Añadir, al menos, un espejo manualmente al archivo make.conf
+# GENTOO_MIRRORS="http://distfiles.gentoo.org"
+
 ## Montar el sistema de archivos proc
 # mount --types proc /proc /mnt/gentoo/proc
 mount -o bind /proc /mnt/gentoo/proc
