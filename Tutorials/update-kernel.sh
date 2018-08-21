@@ -45,5 +45,6 @@ make install
 
 ##
 
-grub2-mkconfig -o /boot/grub/grub.cfg
+grub2-mkconfig -o /boot/grub/grub.cfg ## O bien, con un editor de texto, editar /boot/grub/grub.cfg y cambiar el kernel
+## en base a la salida del comando ls /boot
 reboot
