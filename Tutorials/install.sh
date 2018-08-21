@@ -11,6 +11,11 @@
 # /dev/sda3 30G (-8G para el /swapfile, más adelante) /
 # /dev/sda4 resto del espacio /home
 
+# mkfs.ext2 /dev/sda1
+# mkfs.vfat -F 32 /dev/sda2
+# mkfs.ext4 /dev/sda3
+# mkfs.ext4 /dev/sda4
+
 ## Montar las particiones
 mount /dev/sda3 /mnt/gentoo
 mkdir /mnt/gentoo/home
