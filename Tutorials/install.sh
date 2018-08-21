@@ -5,6 +5,12 @@
 # La configuración de la red se hace con el administrador por defecto, y el particionado, en su caso, con el gestor de particiones
 # por defecto, así como la creación de los sistemas de archivos.
 
+# En caso de particionar el disco duro, realizar la acción bien con cfdisk o bien con gparted o similar. Debería quedar así:
+# /dev/sda1 200M BIOS
+# /dev/sda2 200M UEFI BOOT
+# /dev/sda3 30G (-8G para el /swapfile, más adelante) /
+# /dev/sda4 resto del espacio /home
+
 ## Montar las particiones
 mount /dev/sda3 /mnt/gentoo
 mkdir /mnt/gentoo/home
