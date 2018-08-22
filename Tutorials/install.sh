@@ -172,8 +172,7 @@ rc-update add sysklogd default
 time emerge -qav sys-process/cronie
 rc-update add cronie default
 time emerge -qav sys-apps/mlocate
-time emerge -qav net-misc/dhcpcd
-time emerge -qav net-wireless/iw net-wireless/wpa_supplicant
+time emerge -qav net-wireless/iw
 echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
 time emerge -qav sys-boot/grub:2
 grub-install --target=x86_64-efi --efi-directory=/boot/efi
