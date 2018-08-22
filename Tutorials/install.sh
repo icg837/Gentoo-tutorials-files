@@ -132,9 +132,10 @@ make install
 ## Subparte 2ª: genkernel
 time emerge -qav sys-kernel/genkernel
 nano -w /etc/fstab
-# /dev/sda1 /boot ext2 defaults,noatime 0 2
-# /dev/sda3 / ext4 defaults,noatime 0 1
-# /dev/sda4 /home ext4 defaults,noatime 0 2
+# /dev/sda1 /boot vfat defaults,noatime 0 2
+# /dev/sda2 / ext4 defaults,noatime 0 1
+# /dev/sda3 /home ext4 defaults,noatime 0 2
+# /swapfile none swap defaults 0 0
 genkernel --no-zfs --no-btrfs --menuconfig all
 ## En este punto seleccionar y deseleccionar aquello que se vaya a usar y que no se vaya a usar
 ls /boot/kernel* /boot/initramfs* ## Apuntar los nombres del kernel y del initrd para usarlos más adelante, en el boot
