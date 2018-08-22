@@ -213,3 +213,6 @@ chroot /mnt/gentoo /bin/env -i TERM=$TERM /bin/bash
 env-update
 source /etc/profile
 export PS1="(chroot) $PS1"
+
+## Instalar mirrorselect después de actualizar (opcional)
+time emerge -qavuND @world && time emerge -av mirrorselect
