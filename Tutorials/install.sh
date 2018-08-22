@@ -179,7 +179,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot
 grub-mkconfig -o /boot/grub/grub.cfg
 
 ## Opcional
-time emerge -qav app-shells/zsh app-shells/zsh-completions app-shells/gentoo-zsh-completions
+time emerge -qav app-shells/zsh app-shells/zsh-completions app-shells/gentoo-zsh-completions x11-wm/i3-gaps x11-terms/rxvt-unicode
 chsh -s /bin/zsh
 
 ## Finalización
