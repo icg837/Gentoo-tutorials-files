@@ -190,7 +190,15 @@ umount -l /mnt/gentoo/dev{/shm,/pts,}
 umount -R /mnt/gentoo
 reboot
 
-#### Parte 6ª: Consideraciones al usar un LiveCD/DVD de otra distribución ####
+#### Parte 6ª: Configuración post-instalación inicial ####
+
+## Añadir usuario
+
+useradd -m -G users,wheel,audio,games,usb,video -s /bin/zsh usuario
+passwd usuario
+rm /stage3-*.tar.bz2*
+
+#### Parte 7ª: Consideraciones al usar un LiveCD/DVD de otra distribución ####
 ## Crear el directorio para gentoo antes de montar las particiones
 mkdir /mnt/gentoo
 mount /dev/sda3 /mnt/gentoo
