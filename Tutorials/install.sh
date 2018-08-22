@@ -107,7 +107,7 @@ emerge --config sys-libs/timezone-data
 
 ## Configurar idioma
 nano -w /etc/locale.gen
-# Descomentar es_ES.UTF-8 UTF-8
+# Descomentar o añadir es_ES.UTF-8 UTF-8
 nano -w /etc/env.d/02locale ## Sólo si no existe o si no está configurado
 # LANG="es_ES.UTF-8"
 # LC_COLLATE="C"
