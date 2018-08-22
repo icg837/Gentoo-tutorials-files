@@ -145,7 +145,7 @@ find /lib/modules/<kernel version>/ -type f -iname '*.o' -or -iname '*.ko' | les
 mkdir -p /etc/modules-load.d
 nano -w /etc/modules-load.d/network.conf
 ## Escribir el nombre del módulo a cargar automáticamente, en caso necesario
-emerge -qav sys-kernel/linux-firmware net-wireless/broadcom-sta x11-misc/sddm net-wireless/wireless-tools
+emerge -qav sys-kernel/linux-firmware net-wireless/broadcom-sta x11-misc/sddm net-wireless/wireless-tools net-misc/wicd
 ip link show
 emerge -avn net-misc/netifrc
 nano -w /etc/conf.d/net
