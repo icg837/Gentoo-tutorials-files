@@ -64,4 +64,8 @@ export PS1="(chroot) $PS1"
 ## Probar la conexión a internet
 ping -c 3 www.google.com
 
-# Si hay problemas en el paso anterior, comprobar que el archivo /etc/resolv.conf no contiene cosas como 127.0.x.x, y si las tiene, sustituirlas por 8.8.8.8. De nuevo, cambiarlas por mi DNS una vez instalado el sistema.
+# Si hay problemas en el paso anterior, comprobar que el archivo /etc/resolv.conf no contiene cosas como 127.0.x.x, y si las
+# tiene, sustituirlas por 8.8.8.8. De nuevo, cambiarlas por mi DNS una vez instalado el sistema.
+
+## Sincronizar espejos
+ego sync
