@@ -190,6 +190,12 @@ ego boot update #(cada vez que se modifica el archivo anterior, o cada vez que s
 ## Opcional
 emerge -qav app-shells/zsh app-shells/zsh-completions x11-wm/awesome x11-terms/rxvt-unicode chsh -s /bin/zsh
 
+## Finalización
+exit
+cd
+umount -lR funtoo
+reboot
+
 #### Parte 6ª: configuración post-instalación inicial ####
 
 # Wi-Fi
