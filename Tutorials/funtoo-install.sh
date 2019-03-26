@@ -143,8 +143,10 @@ emerge -av sys-kernel/linux-firmware
 emerge -av networkmanager
 rc-update add NetworkManager default
 rc
-nmtui dev wifi list
+nmcli dev wifi list
 nmtui #(¡¡¡IMPORTANTE!!! Ejecutar este comando tras salir del entorno de instalación e iniciar el sistema instalado.)
+# El anterior comando sólo lista las conexiones.
+nmtui connect XXXXXXXX_XXXX
 
 #### Parte 6ª: configuración variada ####
 
