@@ -2,20 +2,38 @@
 ###########################################################
 #### Parte 1ª: iniciar con Gentoo LiveDVD ####
 
-# La configuración de la red se hace con el administrador por defecto, y el particionado, en su caso, con el gestor de particiones
-# por defecto, así como la creación de los sistemas de archivos.
+# La configuración de la red se hace así:
+wpa_passphrase “MOVISTAR_1CAA” > /etc/wpa.conf #(y escribir la contraseña)
+chmod -v 600 /etc/wpa.conf
+cat /etc/wpa.conf
+wpa_supplicant -Dnl80211,wext -iwlpxxx -c/etc/wpa.conf -B
+dhcpcd
+ping -c 3 www.google.com
 
 # En caso de particionar el disco duro, realizar la acción bien con cfdisk o bien con gparted o similar. Debería quedar así:
 # /dev/sda1 200M UEFI BOOT
 # /dev/sda2 30G (-8G para el /swapfile, más adelante) /
 # /dev/sda3 resto del espacio /home
 
-# mkfs.vfat -F 32 /dev/sda1
-# mkfs.ext4 /dev/sda2
-# mkfs.ext4 /dev/sda3
+# Para ello, ejecutar en gdisk las siguientes instrucciones, sin swapfile (con swapfile, utilizar +30G)
+# (↵ hace referencia a la tecla enter):
+# o (borrar todo el disco), y confirmar con y
+# n, 1, ↵, +200M, EF00
+# n, 2, ↵, +4G, 8200
+# n, 3, ↵, +25G, 8300
+# n, 4, ↵, ↵, 8300
+# w, y
+
+mkfs.vfat -F 32 /dev/sda1  ## Solo si no existe una partición /boot
+mkswap /dev/sda2
+swapon /dev/sda2
+mkfs.ext4 /dev/sda3
+mkfs.ext4 /dev/sda4
 
 ## Montar las particiones
 mount /dev/sda2 /mnt/gentoo
+mkdir /boot/efi  ## Solo si no existe una partición /boot
+mount /dev/sda1 /boot/efi  ## Solo si no existe una partición /boot
 mkdir /mnt/gentoo/home
 mount /dev/sda3 /mnt/gentoo/home
 
@@ -33,14 +51,22 @@ tar xvpf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
 
 ## Modificar make.conf
 nano -w /mnt/gentoo/etc/portage/make.conf
-# CFLAGS="-march=native -O2 -pipe"
-# CXXFLAGS="${CFLAGS}"
-# MAKEOPTS="-j5" ## -j debe ir seguido del número de núcleos del ordenador + 1, por ejemplo, si tiene 4 núcleos será -j5.
-# USE="networkmanager pulseaudio alsa"
-# INPUT_DEVICES="evdev keyboard mouse"
-# VIDEO_CARDS="intel i915" ## cambiar la tarjeta por la/s que tenga el ordenador donde se instalará.
-# LANG="es_ES.UTF-8"
-# LINGUAS="es"
+# COMMON_FLAGS=”-march=native -O2 -pipe”
+# CFLAGS=”${COMMON_FLAGS}”
+# CXXFLAGS=”${COMMON_FLAGS}”
+# FCFLAGS=”${COMMON_FLAGS}”
+# FFLAGS=”${COMMON_FLAGS}”
+# MAKEOPTS=”-j5”
+# FEATURES=”${FEATURES} ccache”
+# CACHE_DIR=”/gentoo/ccache”
+# USE=”-bindist icu mmx python sse sse2 emu”
+# INPUT_DEVICES=”evdev keyboard mouse”
+# VIDEO_CARDS=”intel i965”
+# LANG=”es_ES.UTF-8”
+# LINGUAS=”es”
+# L10N=”es es-ES”
+# GRUB_PLATFORMS=”efi-64”  ## Solo si se va a usar Grub.
+
 
 ## Elegir los espejos
 mirrorselect -i -o >> /mnt/gentoo/etc/portage/make.conf
@@ -75,9 +101,7 @@ cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos
 cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
 mount --types proc /proc /mnt/gentoo/proc
 mount --rbind /sys /mnt/gentoo/sys
-mount --make-rslave /mnt/gentoo/sys
 mount --rbind /dev /mnt/gentoo/dev
-mount --make-rslave /mnt/gentoo/dev
 
 ## chroot
 chroot /mnt/gentoo /bin/bash
@@ -85,20 +109,16 @@ source /etc/profile
 export PS1="(chroot) ${PS1}"
 
 ## Si al crear las particiones en la parte 1ª no se creó una partición swap, realizar los siguientes pasos
-fallocate -l 8192M /swapfile
+fallocate -l 4096M /swapfile
 chmod 600 /swapfile
 mkswap /swapfile
 swapon /swapfile
 
-## Crear y montar la partición /boot (BIOS) o /boot/efi (UEFI)
-mkdir /boot/efi
-mount /dev/sda1 /boot/efi
-
 ## Sincronizar espejos y seleccionar perfiles
-time emerge --sync --quiet
+time emerge-webrsync
 eselect profile list
-eselect profile set X ## La X es el número de perfil, en mi caso sería sin systemd
-time emerge -qavuND @world
+eselect profile set X ## La X es el número apropiado.
+time emerge -avuND @world
 
 ## Configurar zona horaria
 ls /usr/share/zoneinfo
@@ -107,35 +127,39 @@ emerge --config sys-libs/timezone-data
 
 ## Configurar idioma
 nano -w /etc/locale.gen
-# Descomentar o añadir es_ES.UTF-8 UTF-8
+# es_ES ISO-8859-1
+# es_ES.UTF-8 UTF-8
 nano -w /etc/env.d/02locale ## Sólo si no existe o si no está configurado
 # LANG="es_ES.UTF-8"
 # LC_COLLATE="C"
 locale-gen
 eselect locale list
-eselect locale set X ## La X es el número de locale, en mi caso sería es_ES.utf-8
-env-update && source /etc/profile && export PS1="(chroot) $PS1"
+eselect locale set X ## La X es el número apropiado, normalmente es_ES.utf-8
+env-update && source /etc/profile && export PS1="(chroot) ${PS1}"
 
 #### Parte 4ª: instalación y configuración del kernel ####
 
 ## Instalar las fuentes
-time emerge -qav sys-kernel/gentoo-sources
+time emerge -av sys-kernel/gentoo-sources
 
 ## Subparte 1ª: instalación manual
-time emerge -qav sys-apps/pciutils
+time emerge -av pciutils usbutils
 cd /usr/src/linux
-make menuconfig
+make menuconfig  ## Si se va a actualizar el kernel, usar el comando make menuconfig olddefconfig
 ## En este punto seleccionar y deseleccionar aquello que se vaya a usar y que no se vaya a usar
-make && make modules_install
+make -j5
+make modules_install
 make install
 
 ## Subparte 2ª: genkernel
-time emerge -qav sys-kernel/genkernel
+time emerge -av sys-kernel/genkernel
 nano -w /etc/fstab
-# /dev/sda1 /boot vfat defaults,noatime 0 2
-# /dev/sda2 / ext4 defaults,noatime 0 1
-# /dev/sda3 /home ext4 defaults,noatime 0 2
-# /swapfile none swap defaults 0 0
+# UUID=xxx /boot/efi vfat defaults,noatime 0 2
+# UID=yyy swap swap defaults,noatime 0 2
+# UUID=zzz / ext4 defaults,noatime 0 1
+# UUID=aaa /home ext4 defaults,noatime 0 2
+## Para conocer los identificadores UUID, usar el comando blkid
+
 genkernel --no-zfs --no-btrfs --menuconfig all
 ## En este punto seleccionar y deseleccionar aquello que se vaya a usar y que no se vaya a usar
 ls /boot/kernel* /boot/initramfs* ## Apuntar los nombres del kernel y del initrd para usarlos más adelante, en el boot
@@ -145,11 +169,12 @@ find /lib/modules/<kernel version>/ -type f -iname '*.o' -or -iname '*.ko' | les
 mkdir -p /etc/modules-load.d
 nano -w /etc/modules-load.d/network.conf
 ## Escribir el nombre del módulo a cargar automáticamente, en caso necesario
-emerge -qav sys-kernel/linux-firmware net-wireless/broadcom-sta x11-misc/sddm net-wireless/wireless-tools net-misc/wicd
-ip link show
+emerge -av sys-kernel/linux-firmware net-wireless/broadcom-sta*
+* ## Solo si se va a usar ese dispositivo
 emerge -avn net-misc/netifrc
 nano -w /etc/conf.d/net
-# config_wlp2s0=”dhcp”
+# modules_wlp2s0=”wpa_supplicant”
+# config_wlp2s0=”dhcpcd”
 cd /etc/init.d && ln -s net.lo net.wlp2s0 && rc-update add net.wlp2s0 default
 
 #### Parte 5ª: Configuración variada ####
@@ -161,25 +186,30 @@ passwd
 nano -w /etc/conf.d/hostname
 # hostname="gentoo"
 nano -w /etc/hosts
+# 127.0.0.1 gentoo localhost
 nano -w /etc/rc.conf
-# Cambiar lo necesario, en su caso
+# rc_shell=/sbin/sulogin
+# unicode=“YES”
 nano -w /etc/conf.d/keymaps
-# Seleccionar el teclado adecuado
+# keymap=“es”
+# windowkeys=“YES”
 nano -w /etc/conf.d/hwclock
-# clock="local" ## Cambiar a UTC o a local según el caso
-time emerge -qav app-admin/sysklogd
+# clock="local" ## Cambiar a UTC
+nano -w /etc/inittab
+# c1:12345:respawn:/sbin/agetty 38400 tty1 linux --noclear
+time emerge -av /sysklogd cronie mlocate ccache flaggie gentoolkit sudo
 rc-update add sysklogd default
-time emerge -qav sys-process/cronie
 rc-update add cronie default
-time emerge -qav sys-apps/mlocate
-time emerge -qav net-wireless/iw
-echo 'GRUB_PLATFORMS="efi-64"' >> /etc/portage/make.conf
-time emerge -qav sys-boot/grub:2
-grub-install --target=x86_64-efi --efi-directory=/boot
+emerge -av dosfstools dhcpcd wpa_supplicant wireless-tools
+touch /etc/ wpa_supplicant/wpa_supplicant.conf
+time emerge -av grub
+mount -o remount,rw /sys/firmware/efi/efivars
+mount -o remount,rw /boot/efi
+grub-install --target=x86_64-efi --efi-directory=/boot/efi
 grub-mkconfig -o /boot/grub/grub.cfg
 
 ## Opcional
-time emerge -qav app-shells/zsh app-shells/zsh-completions app-shells/gentoo-zsh-completions x11-wm/i3-gaps x11-terms/rxvt-unicode
+time emerge -av app-shells/zsh app-shells/zsh-completions app-shells/gentoo-zsh-completions x11-wm/i3-gaps x11-terms/rxvt-unicode
 chsh -s /bin/zsh
 
 ## Finalización
