@@ -1,6 +1,6 @@
 # Referencia: https://wiki.gentoo.org/wiki/Handbook:AMD64
 ###########################################################
-#### Parte 1ª: iniciar con Gentoo LiveDVD ####
+#### Parte 1ª: iniciar con Gentoo MinimalCD ####
 
 # La configuración de la red se hace así:
 wpa_passphrase “MOVISTAR_1CAA” > /etc/wpa.conf #(y escribir la contraseña)
