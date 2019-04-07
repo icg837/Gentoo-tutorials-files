@@ -46,7 +46,7 @@ hwclock --systohc
 
 ## Descargar el paquete stage3
 cd /mnt/funtoo
-wget -c https://build.funtoo.org/1.3-release-std/x86-64bit/generic_64/stage3-latest.tar.xz
+wget -c https://build.funtoo.org/1.3-release-std/x86-64bit/intel64-haswell/stage3-latest.tar.xz
 tar xvpf stage3-latest.tar.xz
 
 #### Parte 3ª: cambiar de sistema ####
