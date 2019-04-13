@@ -32,8 +32,8 @@ mkfs.ext4 /dev/sda4
 
 ## ¡¡¡NOTA!!! Si se desea conservar la partición /home, con todos los archivos personales, etc., no se debe ni formatear
 ## ni redimensionar ni hacer nada con dicha partición. En su caso, se pueden borrar algunas carpetas ocultas, como por
-## ejemplo .config/xfce4, .config/vlc, .config/Thunar, y otras ocultas directamente en el directorio /home/usuario/, en
-## su caso.
+## ejemplo .config/xfce4, .config/vlc, .config/Thunar, etc., y otras ocultas directamente en el directorio /home/usuario/,
+## en su caso.
 
 ## Montar las particiones
 mount /dev/sda2 /mnt/gentoo
