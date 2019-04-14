@@ -206,7 +206,7 @@ time emerge -av sysklogd cronie mlocate ccache flaggie gentoolkit sudo
 rc-update add sysklogd default
 rc-update add cronie default
 emerge -av dosfstools dhcpcd wpa_supplicant wireless-tools
-touch /etc/ wpa_supplicant/wpa_supplicant.conf
+touch /etc/wpa_supplicant/wpa_supplicant.conf
 time emerge -av grub
 mount -o remount,rw /sys/firmware/efi/efivars
 mount -o remount,rw /boot/efi
