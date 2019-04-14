@@ -37,8 +37,8 @@ mkfs.ext4 /dev/sda4
 
 ## Montar las particiones
 mount /dev/sda2 /mnt/gentoo
-mkdir /boot/efi  ## Solo si no existe una partición /boot
-mount /dev/sda1 /boot/efi  ## Solo si no existe una partición /boot
+mkdir /mnt/gentoo/boot/efi  ## Solo si no existe una partición /boot
+mount /dev/sda1 /mnt/gentoo/boot/efi  ## Solo si no existe una partición /boot
 mkdir /mnt/gentoo/home
 mount /dev/sda3 /mnt/gentoo/home
 
