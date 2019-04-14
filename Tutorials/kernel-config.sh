@@ -11,6 +11,8 @@ Device drivers
             Broadcom devices
                 Broadcom 43xx wireless support (mac80211 stack) <M>
     MMC/SD/SDIO card support <M>
+    USB support
+        xHCI HCD (USB 3.0) support <*>
 Processor type and features
     EFI stub support [*]
         EFI mixee-mode support [*]
