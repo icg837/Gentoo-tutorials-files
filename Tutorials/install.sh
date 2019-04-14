@@ -228,7 +228,7 @@ reboot
 
 ## Añadir usuario
 
-useradd -m -G users,wheel,audio,games,usb,video -s /bin/zsh usuario
+useradd -m -G users,wheel,audio,usb,video -s /bin/zsh usuario
 passwd usuario
 rm /stage3-*.tar.bz2*
 
