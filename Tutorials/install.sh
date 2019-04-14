@@ -202,7 +202,7 @@ nano -w /etc/conf.d/hwclock
 # clock="local" ## Cambiar a UTC
 nano -w /etc/inittab
 # c1:12345:respawn:/sbin/agetty 38400 tty1 linux --noclear
-time emerge -av /sysklogd cronie mlocate ccache flaggie gentoolkit sudo
+time emerge -av sysklogd cronie mlocate ccache flaggie gentoolkit sudo
 rc-update add sysklogd default
 rc-update add cronie default
 emerge -av dosfstools dhcpcd wpa_supplicant wireless-tools
