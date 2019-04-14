@@ -160,7 +160,7 @@ make install
 time emerge -av sys-kernel/genkernel
 nano -w /etc/fstab
 # UUID=xxx /boot/efi vfat defaults,noatime 0 2
-# UID=yyy swap swap defaults,noatime 0 2
+# UUID=yyy swap swap defaults,noatime 0 2
 # UUID=zzz / ext4 defaults,noatime 0 1
 # UUID=aaa /home ext4 defaults,noatime 0 2
 ## Para conocer los identificadores UUID, usar el comando blkid
