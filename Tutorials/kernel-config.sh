@@ -3,3 +3,14 @@
 
 make menuconfig
 
+Device drivers
+    Network device support
+        Wireless LAN
+            Ralink driver support <M>
+                Ralink rt27xx/rt28xx/rt30xx (USB) support <M>
+            Broadcom devices
+                Broadcom 43xx wireless support (mac80211 stack) <M>
+    MMC/SD/SDIO card support <M>
+Processor type and features
+    EFI stub support [*]
+        EFI mixee-mode support [*]
